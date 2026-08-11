@@ -27,33 +27,3 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
-          skip-dirs: '/usr/local/lib/python3.11/site-packages/setuptools/_vendor'name: Security Gates
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-jobs:
-  container-scan:
-    name: Container Vulnerability Scan
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Build local Docker image
-        run: |
-          docker build -t pipeline-gatekeeper:test .
-
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: 'pipeline-gatekeeper:test'
-          format: 'table'
-          exit-code: '1'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
-          skip-dirs: '/usr/local/lib/python3.11/site-packages/setuptools/_vendor'
