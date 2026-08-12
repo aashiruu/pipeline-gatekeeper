@@ -12,6 +12,12 @@ provider "aws" {
   region = "us-east-1"
 }
 
+resource "aws_ebs_volume" "unencrypted" {
+  availability_zone = "us-east-1a"
+  size              = 40
+  encrypted         = false
+}
+
 resource "aws_s3_bucket" "app_data" {
   bucket = "pipeline-gatekeeper-demo-bucket-12345"
 }
