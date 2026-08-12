@@ -8,7 +8,7 @@ A personal learning project demonstrating automated security gating patterns in 
 
 ## Architecture
 
-\```mermaid
+```mermaid
 graph TD
     A[Pull Request] --> B[GitHub Actions CI]
 
@@ -25,7 +25,7 @@ graph TD
     C -->|Clean Container| G[Check Passes]
     D -->|No Secrets Found| G
     E -->|Compliant Infrastructure| G
-\```
+```
 
 ---
 
@@ -89,7 +89,7 @@ Once the deliberate violations were reverted, all three checks passed cleanly:
 
 ## Project Structure
 
-\```
+```
 pipeline-gatekeeper/
 ├── .github/
 │   └── workflows/
@@ -105,6 +105,6 @@ pipeline-gatekeeper/
 ├── main.py                        # FastAPI target service used as the scan subject
 ├── requirements.txt
 └── README.md
-\```
+```
 
 ---
