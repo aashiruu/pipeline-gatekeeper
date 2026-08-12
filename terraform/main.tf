@@ -51,3 +51,15 @@ resource "aws_s3_bucket_policy" "public_read" {
     ]
   })
 }
+
+resource "aws_security_group" "insecure_sg" {
+  name        = "insecure-demo-sg"
+  description = "Allow SSH from anywhere"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
