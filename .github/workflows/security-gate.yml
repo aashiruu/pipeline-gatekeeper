@@ -44,14 +44,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   terraform-policy:
-    name: Terraform Policy Scan (tfsec)
+    name: Terraform Policy Scan (Trivy IaC)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run tfsec security analysis
-        uses: trivy-security/tfsec-action@main
+      - name: Run Trivy IaC security scan
+        uses: aquasecurity/trivy-action@master
         with:
-          working_directory: terraform
-          soft_fail: false
+          scan-type: 'config'
+          scan-ref: 'terraform'
+          exit-code: '1'
+          severity: 'CRITICAL,HIGH'
