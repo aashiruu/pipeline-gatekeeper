@@ -1,3 +1,2 @@
-# Hardcoded high-entropy secret token for gitleaks detection
 AWS_SECRET_ACCESS_KEY = "AKIAIOSFODNN7EXAMPLE1"
-GITHUB_TOKEN = "ghp_1234567890abcdefghijklmnopqrstuvwxyz"
+GITHUB_TOKEN = "ghp_rK8x9P2mLqZ4vY1wT6uN3jH7sA0dB5eC8iO9"
