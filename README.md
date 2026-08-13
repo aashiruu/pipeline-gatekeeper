@@ -68,13 +68,31 @@ All three checks failed as expected:
 
 
 
-**Important limitation found during this test:** despite all three checks failing, GitHub still showed the PR as mergeable ("No conflicts with base branch. Merging can be performed automatically"). The checks detect violations correctly, but nothing was actually blocking the merge itself, because branch protection rules requiring these checks to pass before merge were never configured on the repository. Detection and enforcement are two different things, and this project currently only proves the former. Adding a required-status-checks branch protection rule is the natural next step to close that gap.
+**Important limitation found during this test:** despite all three checks failing, GitHub still showed the PR as mergeable ("No conflicts with base branch. Merging can be performed automatically"). The checks detect violations correctly, but nothing was actually blocking the merge itself, because branch protection rules requiring these checks to pass before merge were never configured on the repository. Detection and enforcement are two different things, and only the first was in place.
+
+**Fix applied:** added a branch ruleset on `main` requiring all three checks (`Container Vulnerability Scan`, `Secret Detection`, `Terraform Policy Scan`) to pass before merging, with pull requests required for all changes. Retesting on the same PR confirmed the fix, GitHub now explicitly states "Merging is blocked due to failing merge requirements." and the merge button is disabled.
+
+
+
+
+<img width="747" height="260" alt="image" src="https://github.com/user-attachments/assets/73da4e5a-aa4f-4438-99e0-1164afc61d00" />
+
+
+
 
 **Second limitation found:** gitleaks attempted to post a summary comment directly on the PR and failed with `HttpError: Resource not accessible by integration`, likely because the workflow's default `GITHUB_TOKEN` didn't have `pull-requests: write` permission. The scan itself still ran and correctly reported the leaked secret in the job summary and logs, just not as an inline PR comment.
 
 
 
 <img width="990" height="507" alt="17865631158095974314376883719094" src="https://github.com/user-attachments/assets/2e7a2c7b-b842-47c3-89dd-2d969ca9fa03" />
+
+
+
+**Fix applied:** added `permissions: pull-requests: write` job (not the other two jobs, which don't need it). Retesting  confirmed gitleaks now leaves a full inline review comment directly on the offending line, identifying the matched rule (`github-pat`) and providing a ready-to-use fingerprint command for marking false positives if needed. 
+
+
+
+<img width="716" height="213" alt="image" src="https://github.com/user-attachments/assets/535ceeb5-0ab9-4614-b032-3440c2a59d5b" />
 
 
 
